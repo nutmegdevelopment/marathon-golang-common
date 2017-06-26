@@ -1,4 +1,4 @@
-package main
+package models
 
 // MarathonApp represents the bulk of the response from /v2/apps/<APP_ID>
 // This is the JSON that is posted to the destination Marathon.
