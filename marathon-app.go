@@ -1,5 +1,10 @@
 package models
 
+import (
+	"encoding/json"
+	"log"
+)
+
 // MarathonApp represents the bulk of the response from /v2/apps/<APP_ID>
 // This is the JSON that is posted to the destination Marathon.
 type MarathonApp struct {
@@ -71,4 +76,13 @@ type MarathonApp struct {
 		MinimumHealthCapacity *float64 `yaml:"minimumHealthCapacity" json:"minimumHealthCapacity,omitempty"`
 	} `yaml:"upgradeStrategy" json:"upgradeStrategy,omitempty"`
 	URIs []string `yaml:"uris" json:"uris,omitempty"`
+}
+
+// ToJSON returns a JSON string representation of itself.
+func (t *MarathonApp) ToJSON() []byte {
+	jsonString, err := json.MarshalIndent(t, "", "  ")
+	if err != nil {
+		log.Fatalf("Error marshalling JSON: %s", err.Error())
+	}
+	return jsonString
 }
