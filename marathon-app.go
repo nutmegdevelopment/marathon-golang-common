@@ -58,8 +58,8 @@ type MarathonApp struct {
 		Protocol               string            `yaml:"protocol" json:"protocol,omitempty"`
 		TimeoutSeconds         int               `yaml:"timeoutSeconds" json:"timeoutSeconds,omitempty"`
 	} `yaml:"healthChecks" json:"healthChecks,omitempty"`
-	ID                    string `yaml:"id" json:"id"`
-	originalID            string
+	ID                    string            `yaml:"id" json:"id"`
+	OriginalID            string            `json:"originalID,omitempty"` // This should not really be here.  TODO: remove!
 	Instances             int               `yaml:"instances" json:"instances"`
 	Labels                map[string]string `yaml:"labels" json:"labels,omitempty"`
 	MaxLaunchDelaySeconds int               `yaml:"maxLaunchDelaySeconds" json:"maxLaunchDelaySeconds,omitempty"`
