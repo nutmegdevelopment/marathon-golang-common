@@ -54,11 +54,17 @@ type MarathonApp struct {
 		IntervalSeconds        int               `yaml:"intervalSeconds" json:"intervalSeconds,omitempty"`
 		MaxConsecutiveFailures int               `yaml:"maxConsecutiveFailures" json:"maxConsecutiveFailures,omitempty"`
 		Path                   string            `yaml:"path" json:"path,omitempty"`
+		Port                   int               `yaml:"port" json:"port"`
 		PortIndex              int               `yaml:"portIndex" json:"portIndex,omitempty"`
 		Protocol               string            `yaml:"protocol" json:"protocol,omitempty"`
 		TimeoutSeconds         int               `yaml:"timeoutSeconds" json:"timeoutSeconds,omitempty"`
 	} `yaml:"healthChecks" json:"healthChecks,omitempty"`
-	ID                    string            `yaml:"id" json:"id"`
+	ID        string `yaml:"id" json:"id"`
+	IPAddress struct {
+		Groups      []string          `yaml:"groups" json:"groups"`
+		Labels      map[string]string `yaml:"labels" json:"labels"`
+		NetworkName string            `yaml:"networkName" json:"networkName"`
+	}
 	OriginalID            string            `json:"originalID,omitempty"` // This should not really be here.  TODO: remove!
 	Instances             int               `yaml:"instances" json:"instances"`
 	Labels                map[string]string `yaml:"labels" json:"labels,omitempty"`
@@ -66,14 +72,16 @@ type MarathonApp struct {
 	Memory                float64           `yaml:"mem" json:"mem,omitempty"`
 	Ports                 []int             `yaml:"ports" json:"ports,omitempty"`
 	PortDefinitions       []struct {
+		Labels   map[string]string `yaml:"labels" json:"labels"`
+		Name     string            `yaml:"name" json:"name"`
 		Port     int               `yaml:"port" json:"port"`
 		Protocol string            `yaml:"protocol" json:"protocol"`
-		Labels   map[string]string `yaml:"labels" json:"labels"`
 	} `yaml:"portDefinitions" json:"portDefinitions,omitempty"`
-	RequirePorts    bool `yaml:"requirePorts,omitempty" json:"requirePorts"`
-	UpgradeStrategy struct {
-		MaximumOverCapacity   *float64 `yaml:"maximumOverCapacity" json:"maximumOverCapacity,omitempty"`
-		MinimumHealthCapacity *float64 `yaml:"minimumHealthCapacity" json:"minimumHealthCapacity,omitempty"`
+	RequirePorts               bool `yaml:"requirePorts,omitempty" json:"requirePorts"`
+	TaskKillGracePeriodSeconds int  `yaml:"taskKillGracePeriodSeconds" json:"taskKillGracePeriodSeconds"`
+	UpgradeStrategy            struct {
+		MaximumOverCapacity   float64 `yaml:"maximumOverCapacity" json:"maximumOverCapacity,omitempty"`
+		MinimumHealthCapacity float64 `yaml:"minimumHealthCapacity" json:"minimumHealthCapacity,omitempty"`
 	} `yaml:"upgradeStrategy" json:"upgradeStrategy,omitempty"`
 	URIs []string `yaml:"uris" json:"uris,omitempty"`
 }
