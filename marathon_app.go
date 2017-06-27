@@ -16,7 +16,7 @@ type MarathonApp struct {
 	BackoffSeconds             int                         `yaml:"backoffSeconds" json:"backoffSeconds,omitempty"`
 	Command                    string                      `yaml:"cmd" json:"cmd,omitempty"`
 	Constraints                [][]string                  `yaml:"constraints" json:"constraints,omitempty"`
-	Container                  MarathonAppContainer        `yaml:"container" json:"container,omitempty"`
+	Container                  *MarathonAppContainer       `yaml:"container" json:"container,omitempty"`
 	CPUs                       float64                     `yaml:"cpus" json:"cpus,omitempty"`
 	Dependencies               []string                    `yaml:"dependencies" json:"dependencies,omitempty"`
 	Environment                map[string]string           `yaml:"env" json:"env,omitempty"`
@@ -25,7 +25,7 @@ type MarathonApp struct {
 	HealthChecks               []MarathonAppHealthCheck    `yaml:"healthChecks" json:"healthChecks,omitempty"`
 	ID                         string                      `yaml:"id" json:"id,omitempty"`
 	IPAddress                  *MarathonAppIPAddress       `json:"ipAddress,omitempty"`
-	OriginalID                 string                      `json:"-,omitempty"`
+	OriginalID                 string                      `json:"-"`
 	Instances                  int                         `yaml:"instances" json:"instances,omitempty"`
 	Labels                     map[string]string           `yaml:"labels" json:"labels,omitempty"`
 	MaxLaunchDelaySeconds      int                         `yaml:"maxLaunchDelaySeconds" json:"maxLaunchDelaySeconds,omitempty"`
@@ -39,23 +39,23 @@ type MarathonApp struct {
 }
 
 type MarathonAppContainer struct {
-	ContainerType  string                       `yaml:"type" json:"type"`
-	Docker         MarathonAppContainerDocker   `yaml:"docker" json:"docker,omitempty"`
+	ContainerType  string                       `yaml:"type" json:"type,omitempty"`
+	Docker         *MarathonAppContainerDocker  `yaml:"docker" json:"docker,omitempty"`
 	ForcePullImage bool                         `yaml:"forcePullImage" json:"forcePullImage,omitempty"`
 	Volumes        []MarathonAppContainerVolume `yaml:"volumes" json:"volumes,omitempty"`
 }
 
 type MarathonAppContainerDocker struct {
-	Image        string                                   `yaml:"image" json:"image"`
+	Image        string                                   `yaml:"image" json:"image,omitempty"`
 	Network      string                                   `yaml:"network" json:"network,omitempty"`
 	PortMappings []MarathonAppContainerDockerPortMappings `yaml:"portMappings" json:"portMappings,omitempty"`
-	Privileged   bool                                     `yaml:"privileged" json:"privileged,omitempty"`
+	Privileged   *bool                                    `yaml:"privileged" json:"privileged,omitempty"`
 	Parameters   []MarathonAppContainerDockerParameters   `yaml:"parameters" json:"parameters,omitempty"`
 }
 
 type MarathonAppContainerDockerPortMappings struct {
 	ContainerPort int    `yaml:"containerPort" json:"containerPort,omitempty"`
-	HostPort      int    `yaml:"hostPort" json:"hostPort"`
+	HostPort      *int   `yaml:"hostPort" json:"hostPort,omitempty"`
 	Protocol      string `yaml:"protocol" json:"protocol,omitempty"`
 	ServicePort   int    `yaml:"servicePort" json:"servicePort,omitempty"`
 }
@@ -66,16 +66,16 @@ type MarathonAppContainerDockerParameters struct {
 }
 
 type MarathonAppContainerVolume struct {
-	ContainerPath string `yaml:"containerPath" json:"containerPath"`
-	HostPath      string `yaml:"hostPath" json:"hostPath"`
-	Mode          string `yaml:"mode" json:"mode"`
+	ContainerPath string `yaml:"containerPath" json:"containerPath,omitempty"`
+	HostPath      string `yaml:"hostPath" json:"hostPath,omitempty"`
+	Mode          string `yaml:"mode" json:"mode,omitempty"`
 }
 
 type MarathonAppFetch struct {
-	URI        string `yaml:"uri" json:"uri"`
-	Extract    bool   `yaml:"extract" json:"extract"`
-	Executable bool   `yaml:"executable" json:"executable"`
-	Cache      bool   `yaml:"cache" json:"cache"`
+	URI        string `yaml:"uri" json:"uri,omitempty"`
+	Extract    *bool  `yaml:"extract" json:"extract,omitempty"`
+	Executable *bool  `yaml:"executable" json:"executable,omitempty"`
+	Cache      *bool  `yaml:"cache" json:"cache,omitempty"`
 }
 
 type MarathonAppHealthCheck struct {
@@ -84,28 +84,28 @@ type MarathonAppHealthCheck struct {
 	IntervalSeconds        int               `yaml:"intervalSeconds" json:"intervalSeconds,omitempty"`
 	MaxConsecutiveFailures int               `yaml:"maxConsecutiveFailures" json:"maxConsecutiveFailures,omitempty"`
 	Path                   string            `yaml:"path" json:"path,omitempty"`
-	Port                   int               `yaml:"port" json:"port"`
+	Port                   int               `yaml:"port" json:"port,omitempty"`
 	PortIndex              int               `yaml:"portIndex" json:"portIndex,omitempty"`
 	Protocol               string            `yaml:"protocol" json:"protocol,omitempty"`
 	TimeoutSeconds         int               `yaml:"timeoutSeconds" json:"timeoutSeconds,omitempty"`
 }
 
 type MarathonAppIPAddress struct {
-	Groups      []string          `yaml:"groups" json:"groups"`
-	Labels      map[string]string `yaml:"labels" json:"labels"`
+	Groups      []string          `yaml:"groups" json:"groups,omitempty"`
+	Labels      map[string]string `yaml:"labels" json:"labels,omitempty"`
 	NetworkName string            `yaml:"networkName" json:"networkName,omitempty"`
 }
 
 type MarathonAppUpgradeStrategy struct {
-	MaximumOverCapacity   float64 `yaml:"maximumOverCapacity" json:"maximumOverCapacity,omitempty"`
-	MinimumHealthCapacity float64 `yaml:"minimumHealthCapacity" json:"minimumHealthCapacity,omitempty"`
+	MaximumOverCapacity   *float64 `yaml:"maximumOverCapacity" json:"maximumOverCapacity,omitempty"`
+	MinimumHealthCapacity *float64 `yaml:"minimumHealthCapacity" json:"minimumHealthCapacity,omitempty"`
 }
 
 type MarathonAppPortDefinition struct {
-	Labels   map[string]string `yaml:"labels" json:"labels"`
-	Name     string            `yaml:"name" json:"name"`
-	Port     int               `yaml:"port" json:"port"`
-	Protocol string            `yaml:"protocol" json:"protocol"`
+	Labels   map[string]string `yaml:"labels" json:"labels,omitempty"`
+	Name     string            `yaml:"name" json:"name,omitempty"`
+	Port     int               `yaml:"port" json:"port,omitempty"`
+	Protocol string            `yaml:"protocol" json:"protocol,omitempty"`
 }
 
 // ToJSON returns a JSON string representation of itself.
