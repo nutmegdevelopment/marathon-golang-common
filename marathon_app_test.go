@@ -23,6 +23,7 @@ const (
 	MarathonAppContainerVolumeTestJSON             = `{"containerPath":"container-path","hostPath":"host-path","mode":"mode"}`
 	MarathonAppContainerDockerPortMappingsTestJSON = `{"containerPort":8080,"hostPort":31001,"protocol":"HTTP","servicePort":15001}`
 	MarathonAppContainerDockerTestJSON             = `{"image":"registry.nutmeg.co.uk:8443/...","network":"BRIDGE","portMappings":[{"containerPort":8080,"hostPort":31001,"protocol":"HTTP","servicePort":15001},{}],"privileged":false,"parameters":[{"key":"key1","value":"value1"},{"key":"key2","value":"value2"}]}`
+	MarathonAppContainerTestJSON                   = `{"type":"DOCKER","forcePullImage":true}`
 )
 
 func TestMinimumOutput(t *testing.T) {
@@ -286,6 +287,18 @@ func TestMarathonAppContainerEmpty(t *testing.T) {
 		fmt.Println("error:", err)
 	}
 	assert.Equal(t, `{}`, string(b))
+}
+
+func TestMarathonAppContainerFull(t *testing.T) {
+	m := MarathonAppContainer{}
+	m.ContainerType = "DOCKER"
+	m.ForcePullImage = true
+
+	b, err := json.Marshal(m)
+	if err != nil {
+		fmt.Println("error:", err)
+	}
+	assert.Equal(t, MarathonAppContainerTestJSON, string(b))
 }
 
 func TestMarathonAppEmpty(t *testing.T) {
