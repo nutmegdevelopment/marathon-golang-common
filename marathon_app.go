@@ -58,6 +58,7 @@ type MarathonAppContainerDockerPortMappings struct {
 	HostPort      *int   `yaml:"hostPort" json:"hostPort,omitempty"`
 	Protocol      string `yaml:"protocol" json:"protocol,omitempty"`
 	ServicePort   int    `yaml:"servicePort" json:"servicePort,omitempty"`
+	Name          string `yaml:"name" json:"name,omitempty"`
 }
 
 type MarathonAppContainerDockerParameters struct {
